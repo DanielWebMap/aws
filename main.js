@@ -43,7 +43,7 @@ async function showStations(url) {
     console.log(geojson)
 
 
-    //Lefleat GeoJSON erstellen und Icons erstellen 
+    //Lefleat GeoJSON erstellen und Icons mit Popups erstellen 
 
     L.geoJSON(geojson, {
         pointToLayer: function (feature, latlng) {
@@ -68,7 +68,7 @@ async function showStations(url) {
             </ul></p>
 
             ${feature.properties.date} 
-        `)
+        `, { className: 'stylePopup' })  //Pop-Ups erhalten Klassenname für CSS Styling
 
         }
     }).addTo(themaLayer.stations);

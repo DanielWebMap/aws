@@ -50,3 +50,14 @@ footer {
 footer nav {
     display: inline-block;
 }
+
+/*Pop-Ups stylen */
+
+.stylePopup .leaflet-popup-content-wrapper,
+.stylePopup .leaflet-popup-tip {
+    background-color: #3D9970;
+}
+
+.stylePopup .leaflet-popup-content {
+    color: white;
+}
