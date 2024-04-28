@@ -42,6 +42,7 @@ async function showStations(url) {
     // Wetterstationen mit Icons und Popups
     console.log(geojson)
 
+
     //Lefleat GeoJSON erstellen und Icons erstellen 
 
     L.geoJSON(geojson, {
@@ -56,8 +57,17 @@ async function showStations(url) {
         },
 
         onEachFeature: function (feature, layer) {
-            layer.bindPopup(`
-        
+            console.log(feature.properties)
+            console.log(feature.geometry)
+            layer.bindPopup(`<h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>
+            <p><ul>
+            <li>Lufttemperatur (°C): ${feature.properties.LT || "-"}</li>
+            <li>Relative Luftfeuchte (%): ${feature.properties.RH || "-"}</li>
+            <li>Windgeschwindigkeit (km/h): ${feature.properties.WG || "-"}</li>
+            <li>Schneehöhe (cm): ${feature.properties.HS || "-"}</li>
+            </ul></p>
+
+            ${feature.properties.date} 
         `)
 
         }
