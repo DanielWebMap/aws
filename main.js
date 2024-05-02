@@ -16,6 +16,7 @@ let themaLayer = {
     stations: L.featureGroup().addTo(map)
 }
 
+//Test
 // Hintergrundlayer
 L.control.layers({
     "Relief avalanche.report": L.tileLayer(
