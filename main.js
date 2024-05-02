@@ -15,6 +15,7 @@ let map = L.map("map", {
 let themaLayer = {
     stations: L.featureGroup().addTo(map),
     temperature: L.featureGroup().addTo(map),
+    wind: L.featureGroup().addTo(map),
 }
 
 //Test
@@ -29,7 +30,8 @@ L.control.layers({
     "Esri WorldImagery": L.tileLayer.provider("Esri.WorldImagery")
 }, {
     "Wetterstationen": themaLayer.stations,
-    "Temperatur":themaLayer.temperature
+    "Temperatur (°C)":themaLayer.temperature,
+    "Wind (km/h)":themaLayer.wind,
 }).addTo(map);
 
 // Maßstab
@@ -50,6 +52,9 @@ function getColor(value, ramp){
 } 
 
 
+
+//TEMPERATUR
+
 function showTemperature(geojson) {
     L.geoJSON(geojson, {
         filter: function(feature) {  //Filtern des GeoJSON nach Vorgaben
@@ -59,16 +64,40 @@ function showTemperature(geojson) {
             }
         },
         pointToLayer: function(feature, latlng) {
+            let color = getColor(feature.properties.LT, COLORS.temperature);
             return L.marker(latlng, {
                 icon: L.divIcon({
                     className: "aws-div-icon",
-                    html: `<span>${feature.properties.LT.toFixed(1)}</span>`
+                    html: `<span style="background-color:${color};">${feature.properties.LT.toFixed(1)}</span>`
             })
             
             })
     }}).addTo(themaLayer.temperature)
 
 }
+
+
+//WIND
+function showWind(geojson) {
+    L.geoJSON(geojson, {
+        filter: function(feature) {  //Filtern des GeoJSON nach Vorgaben
+            //feature.properties.LT
+            if (feature.properties.WG >= 0 && feature.properties.WG <200){
+                return true;
+            }
+        },
+        pointToLayer: function(feature, latlng) {
+            let color = getColor(feature.properties.WG, COLORS.wind);
+            return L.marker(latlng, {
+                icon: L.divIcon({
+                    className: "aws-div-icon-wind",
+                    html: `<span title="${feature.properties.WG.toFixed(1)} km/h"><i style="transform:rotate(${feature.properties.WR}deg);color:${color}" class="fa-solid fa-circle-arrow-up"></i></span>`
+            })
+            })
+    }}).addTo(themaLayer.wind)
+}
+
+
 
 
 
@@ -115,5 +144,6 @@ async function showStations(url) {
         }
     }).addTo(themaLayer.stations);
     showTemperature(geojson);
+    showWind(geojson);
 }
 showStations("https://static.avalanche.report/weather_stations/stations.geojson");
