@@ -61,3 +61,7 @@ footer nav {
 .stylePopup .leaflet-popup-content {
     color: white;
 }
+
+.leaflet-container a.leaflet-popup-close-button {
+    color: white;
+}
