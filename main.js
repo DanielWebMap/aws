@@ -37,6 +37,17 @@ L.control.scale({
     imperial: false,
 }).addTo(map);
 
+//Farben abgreifen 
+
+function getColor(value, ramp){
+    console.log("getCOlor: value: ", value, "ramp: ", ramp);
+    for (let rule of ramp) {
+        console.log("Rule: ", rule);
+        if(value >= rule.min && value < rule.max) {
+            return rule.color; 
+        }
+    }
+} 
 
 
 function showTemperature(geojson) {
@@ -67,7 +78,7 @@ async function showStations(url) {
     let geojson = await response.json();
 
     // Wetterstationen mit Icons und Popups
-    console.log(geojson)
+    //console.log(geojson)
 
 
     //Lefleat GeoJSON erstellen und Icons mit Popups erstellen 
@@ -88,7 +99,7 @@ async function showStations(url) {
             //console.log(feature.properties)
             //console.log(feature.geometry)
             let pointInTime = new Date(feature.properties.date) // Mit New Operator wird ein neues Format erstellt, Datum, und in Variable gespeichert
-            console.log(pointInTime)
+            //console.log(pointInTime)
             layer.bindPopup(`<h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>
             <p><ul>
             <li>Lufttemperatur (°C): ${feature.properties.LT || "-"}</li>
