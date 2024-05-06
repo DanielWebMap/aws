@@ -25,7 +25,7 @@ wind: [
 ], 
 
 snow: [
-{min: 1,max:10, color: "#ffffb2"},
+{min: 0,max:10, color: "#ffffb2"},
 {min: 10,max:25, color: "#b0ffbc"},
 {min: 25,max:50, color: "#8cffff"},
 {min: 50,max:100, color: "#19cdff"},

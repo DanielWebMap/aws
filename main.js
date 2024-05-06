@@ -16,6 +16,7 @@ let themaLayer = {
     stations: L.featureGroup().addTo(map),
     temperature: L.featureGroup().addTo(map),
     wind: L.featureGroup().addTo(map),
+    snowheight: L.featureGroup().addTo(map),
 }
 
 //Test
@@ -32,6 +33,7 @@ L.control.layers({
     "Wetterstationen": themaLayer.stations,
     "Temperatur (°C)":themaLayer.temperature,
     "Wind (km/h)":themaLayer.wind,
+    "Schneehöhe (cm)":themaLayer.snowheight,
 }).addTo(map);
 
 // Maßstab
@@ -78,6 +80,8 @@ function showTemperature(geojson) {
 
 
 //WIND
+
+
 function showWind(geojson) {
     L.geoJSON(geojson, {
         filter: function(feature) {  //Filtern des GeoJSON nach Vorgaben
@@ -96,6 +100,32 @@ function showWind(geojson) {
             })
     }}).addTo(themaLayer.wind)
 }
+
+
+
+//SCHNEEHÖHE
+
+function showSnow(geojson) {
+    L.geoJSON(geojson, {
+        filter: function(feature) {
+            if (feature.properties.HS >= 0 && feature.properties.HS <800){
+                return true; 
+            }
+        },
+        pointToLayer: function (feature, latlng) {
+            let color = getColor(feature.properties.HS, COLORS.snow); 
+            return L.marker(latlng, {
+                icon: L.divIcon({
+                    className: "aws-div-icon-snow",
+                    html: `<span style="background-color:${color};">${feature.properties.HS.toFixed(1)}</span>`
+                })
+            })
+        }
+    }).addTo(themaLayer.snowheight)
+
+
+}
+
 
 
 
@@ -145,5 +175,6 @@ async function showStations(url) {
     }).addTo(themaLayer.stations);
     showTemperature(geojson);
     showWind(geojson);
+    showSnow(geojson);
 }
 showStations("https://static.avalanche.report/weather_stations/stations.geojson");
