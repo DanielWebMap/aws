@@ -9,7 +9,7 @@ let ibk = {
 // Karte initialisieren
 let map = L.map("map", {
     fullscreenControl: true
-}).setView([ibk.lat, ibk.lng], 11);
+}).setView([ibk.lat, ibk.lng], 10);
 
 // thematische Layer
 let themaLayer = {
