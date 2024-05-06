@@ -17,6 +17,7 @@ let themaLayer = {
     temperature: L.featureGroup(),
     wind: L.featureGroup(),
     snowheight: L.featureGroup().addTo(map),
+    rainviewer: L.featureGroup().addTo(map),
 }
 
 //Test
@@ -28,13 +29,32 @@ L.control.layers({
     }).addTo(map),
     "Openstreetmap": L.tileLayer.provider("OpenStreetMap.Mapnik"),
     "Esri WorldTopoMap": L.tileLayer.provider("Esri.WorldTopoMap"),
-    "Esri WorldImagery": L.tileLayer.provider("Esri.WorldImagery")
+    "Esri WorldImagery": L.tileLayer.provider("Esri.WorldImagery"),
 }, {
     "Wetterstationen": themaLayer.stations,
     "Temperatur (°C)":themaLayer.temperature,
     "Wind (km/h)":themaLayer.wind,
     "Schneehöhe (cm)":themaLayer.snowheight,
+    
+} 
+).addTo(map);
+
+
+
+//RAINVIEWER
+
+L.control.rainviewer({ 
+    position: 'topright',
+    nextButtonText: '>',
+    playStopButtonText: 'Play/Stop',
+    prevButtonText: '<',
+    positionSliderLabelText: "Hour:",
+    opacitySliderLabelText: "Opacity:",
+    animationInterval: 500,
+    opacity: 0.5
 }).addTo(map);
+
+
 
 // Maßstab
 L.control.scale({
